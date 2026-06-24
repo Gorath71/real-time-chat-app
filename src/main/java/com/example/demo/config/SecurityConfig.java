@@ -33,6 +33,11 @@ public class SecurityConfig {
 						}))
 				.logout(logout -> logout
 						.logoutUrl("/auth/logout"))
+				.exceptionHandling(ex -> ex
+						.authenticationEntryPoint((req, res, e) -> {
+					        res.setStatus(401);
+					    })
+					)
 				.build();
 	}
 	
