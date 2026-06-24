@@ -24,8 +24,15 @@ public class SecurityConfig {
 						.requestMatchers("/auth/**").permitAll()
 						.anyRequest().authenticated())
 				.formLogin(form -> form
-						.loginPage("/login")
-						.permitAll())
+						.loginProcessingUrl("/auth/login")
+						.successHandler((req, res, auth) -> {
+							res.setStatus(200);
+						})
+						.failureHandler((req, res, ex) -> {
+							res.setStatus(401);
+						}))
+				.logout(logout -> logout
+						.logoutUrl("/auth/logout"))
 				.build();
 	}
 	
